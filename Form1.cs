@@ -13,39 +13,34 @@ namespace FuzzyLogic
 {
     public partial class Form1 : Form
     {
+        LinguisticVariable dSpeed;
+        LinguisticVariable dAltitude;
+        LinguisticVariable dWind;
+
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public AddMembers()
         {
-            LinguisticVariable water = new LinguisticVariable("Water");
-            water.MembershipFunctionCollection.Add(new MembershipFunction("Cold", 0, 0, 20, 40));
-            water.MembershipFunctionCollection.Add(new MembershipFunction("Tepid", 30, 50, 50, 70));
-            water.MembershipFunctionCollection.Add(new MembershipFunction("Hot", 50, 80, 100, 100));
+            MembershipFunctionCollection wind = new MembershipFunctionCollection();
+            wind.Add(new MembershipFunction("WEAK", 0.0, 0.0, 5.0, 10.0));
+            wind.Add(new MembershipFunction("MEDIUM", 8.0, 8.0, 15.0, 18.0));
+            wind.Add(new MembershipFunction("STRONG", 15.0, 15.0, 25.0, 29.0));
 
-            LinguisticVariable power = new LinguisticVariable("Power");
-            power.MembershipFunctionCollection.Add(new MembershipFunction("Low", 0, 25, 25, 50));
-            power.MembershipFunctionCollection.Add(new MembershipFunction("High", 25, 50, 50, 75));
 
-            FuzzyEngine fuzzyEngine = new FuzzyEngine();
-            fuzzyEngine.LinguisticVariableCollection.Add(water);
-            fuzzyEngine.LinguisticVariableCollection.Add(power);
-            fuzzyEngine.Consequent = "Power";
-            fuzzyEngine.FuzzyRuleCollection.Add(new FuzzyRule("IF (Water IS Cold) OR (Water IS Tepid) THEN Power IS High"));
-            fuzzyEngine.FuzzyRuleCollection.Add(new FuzzyRule("IF (Water IS Hot) THEN Power IS Low"));
+            MembershipFunctionCollection altitude = new MembershipFunctionCollection();
+            altitude.Add(new MembershipFunction("LOW", 0.0, 0.0, 12000.0, 15000.0));
+            altitude.Add(new MembershipFunction("OK", 13000.0, 13000.0, 25000.0, 35000.0));
+            altitude.Add(new MembershipFunction("HIGH", 33000.0, 33000.0, 45000.0, 50000.0));
 
-            water.InputValue = 60;
-
-            try
-            {
-                MessageBox.Show(fuzzyEngine.Defuzzify().ToString());
-            }
-            catch (Exception d)
-            {
-                MessageBox.Show(d.Message);
-            }
+            MembershipFunctionCollection speed = new MembershipFunctionCollection();
+            speed.Add(new MembershipFunction("SLOW", 0.0, 0.0, 12000.0, 15000.0));
+            speed.Add(new MembershipFunction("FINE", 13000.0, 13000.0, 25000.0, 35000.0));
+            speed.Add(new MembershipFunction("FAST", 33000.0, 33000.0, 45000.0, 50000.0));
         }
+
     }
 }
