@@ -59,10 +59,19 @@
     <Compile Include="Fuzzy_Library\LinguisticVariableCollection.cs" />
     <Compile Include="Fuzzy_Library\MembershipFunction.cs" />
     <Compile Include="Fuzzy_Library\MembershipFunctionCollection.cs" />
+    <Compile Include="OutputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutputForm.Designer.cs">
+      <DependentUpon>OutputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputForm.resx">
+      <DependentUpon>OutputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -72,6 +81,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -85,6 +95,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FAST.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\medium.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\slow.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\could.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dont.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\go.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
