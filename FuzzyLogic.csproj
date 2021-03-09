@@ -74,6 +74,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Debug\FuzzyLogic.exe.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -88,22 +89,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FAST.gif" />
+    <Content Include="bin\Debug\FuzzyLogic.exe" />
+    <Content Include="bin\Debug\FuzzyLogic.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\medium.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\slow.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\could.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\dont.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\go.gif" />
+    <Folder Include="bin\Release\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
