@@ -1,35 +1,35 @@
-strong	h	fa	should
-strong	h	fi	could
-strong	h	slow	unable
+parallel	h	fa	should
+parallel	h	fi	should
+parallel	h	slow	COULD
 
-strong	ok	fa	should
-strong	ok	fi	could
-strong	ok	slow	unable
+parallel	ok	fa	should
+parallel	ok	fi	should
+parallel	ok	slow	COULD
 
-strong	low	fa	could
-strong	low	fi	could
-strong	low	slow	unable
+parallel	low	fa	could
+parallel	low	fi	should
+parallel	low	slow	should
 
-medium	h	fa	should
-medium	h	fi	should
-medium	h	slow	unable
+neutral	h	fa	should
+neutral	h	fi	should
+neutral	h	slow	could
 
-medium	ok	fa	should
-medium	ok	fi	should
-medium	ok	slow	could
+neutral	ok	fa	should
+neutral	ok	fi	should
+neutral	ok	slow	could
 
-medium	low	fa	should
-medium	low	fi	should
-medium	low	slow	could
+neutral	low	fa	should
+neutral	low	fi	should
+neutral	low	slow	could
 
-weak	h	fa	should
-weak	h	fi	should
-weak	h	slow	unable
+opposite	h	fa	could
+opposite	h	fi	could
+opposite	h	slow	unable
 
-weak	ok	fa	should
-weak	ok	fi	should
-weak	ok	slow	should
+opposite	ok	fa	should
+opposite	ok	fi	could
+opposite	ok	slow	unable
 
-weak	low	fa	unable
-weak	low	fi	should
-weak	low	slow	COULD
+opposite	low	fa	should
+opposite	low	fi	could
+opposite	low	slow	unable

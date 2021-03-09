@@ -13,27 +13,28 @@ namespace FuzzyLogic
 {
     public partial class Form1 : Form
     {
-        LinguisticVariable dSpeed, dAltitude, dWind, dLand;
-        MembershipFunctionCollection wind, altitude, speed, land;
+        /*LinguisticVariable dSpeed, dAltitude, dWind, dLand;
+        MembershipFunctionCollection wind, altitude, speed, land;*/
+        LinguisticVariable NDF, CBW, DMI;
+
         FuzzyEngine fuzz;
         OutputForm newForm;
+
+
+
         public static Image outputImage;
+        //public static double Altitude, Speed;
 
         private void button1_Click(object sender, EventArgs e)
         {
+            fuzz = new FuzzyEngine();
             AddMembers();
             SetRules();
             newForm = new OutputForm();
             double res = fuzz.Defuzzify();
             Console.WriteLine(res);
-            if (res < 1.0)
-                outputImage = Properties.Resources.dont;
-            else if (res < 1.7)
-                outputImage = Properties.Resources.could;
-            else
-                outputImage = Properties.Resources.go;
-            newForm.ShowImage(outputImage);
-            newForm.Show();           
+            newForm.Show();
+
         }
 
         public Form1()
@@ -43,8 +44,30 @@ namespace FuzzyLogic
 
         public void AddMembers()
         {
-            fuzz = new FuzzyEngine();
-            wind = new MembershipFunctionCollection();
+            MembershipFunctionCollection ndf = new MembershipFunctionCollection();
+            ndf.Add(new MembershipFunction("SMALL", 40.0, 47, 47, 48));
+            ndf.Add(new MembershipFunction("MEDIUM", 46, 60, 60, 69));
+            ndf.Add(new MembershipFunction("LARGE", 65, 72, 72, 74));
+            NDF = new LinguisticVariable("NDF", ndf);
+
+
+
+            MembershipFunctionCollection cbw = new MembershipFunctionCollection();
+            cbw.Add(new MembershipFunction("SMALL", 1020, 1250, 1250, 1450));
+            cbw.Add(new MembershipFunction("MEDIUM", 1390, 1550, 1550, 1750));
+            cbw.Add(new MembershipFunction("LARGE", 1680, 1820, 1820, 1890));
+            CBW = new LinguisticVariable("CBW", cbw);
+
+
+            MembershipFunctionCollection dmi = new MembershipFunctionCollection();
+            dmi.Add(new MembershipFunction("IAWL", 14, 18, 18, 22)); //Increase a whole lot
+            dmi.Add(new MembershipFunction("IAGA", 20, 24, 24, 29)); //Increase a good amount
+            dmi.Add(new MembershipFunction("ENOUGH", 27, 31, 31, 34));
+            dmi.Add(new MembershipFunction("DAGA", 32, 38, 38, 42)); //Decrease a good amount
+            dmi.Add(new MembershipFunction("DAWL", 40,47,47,52)); ; //Decrease a whole lot
+            DMI = new LinguisticVariable("DMI", dmi);
+
+            /*wind = new MembershipFunctionCollection();
             wind.Add(new MembershipFunction("OPPOSITE", -2.0, -0.5, -0.5, 0));
             wind.Add(new MembershipFunction("NEUTRAL", -0.1,0.9,0.9,1.1));
             wind.Add(new MembershipFunction("PARALLEL", 1.0,1.5,1.5,1.9));
@@ -66,53 +89,30 @@ namespace FuzzyLogic
             land.Add(new MembershipFunction("UNABLE", 0.0, 0.5, 0.5, 1.0));
             land.Add(new MembershipFunction("COULD", 0.8, 1.3, 1.5, 1.7));
             land.Add(new MembershipFunction("SHOULD", 1.6, 2.3, 2.5, 3.0));
-            dLand = new LinguisticVariable("Land", land);
+            dLand = new LinguisticVariable("Land", land);*/
+
+
 
         }
 
         public void SetRules()
         {
-            fuzz.LinguisticVariableCollection.Add(dWind);
-            fuzz.LinguisticVariableCollection.Add(dAltitude);
-            fuzz.LinguisticVariableCollection.Add(dSpeed);
-            fuzz.LinguisticVariableCollection.Add(dLand);
-            fuzz.Consequent = "Land";
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS LOW) AND (Speed IS SLOW) THEN Land IS UNABLE"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS LOW) AND (Speed IS FINE) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS LOW) AND (Speed IS FAST) THEN Land IS SHOULD"));
+            fuzz.LinguisticVariableCollection.Add(CBW);
+            fuzz.LinguisticVariableCollection.Add(NDF);
+            fuzz.LinguisticVariableCollection.Add(DMI);
+            fuzz.Consequent = "DMI";
 
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS OK) AND (Speed IS SLOW) THEN Land IS UNABLE"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS OK) AND (Speed IS FINE) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS OK) AND (Speed IS FAST) THEN Land IS SHOULD"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS SMALL) AND (NDF IS SMALL) THEN DMI IS ENOUGH"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS MEDIUM) AND (NDF IS SMALL) THEN DMI IS DAGA"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS LARGE) AND (NDF IS SMALL) THEN DMI IS DAWL"));
 
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS HIGH) AND (Speed IS SLOW) THEN Land IS UNABLE"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS HIGH) AND (Speed IS FINE) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS OPPOSITE) AND (Altitude IS HIGH) AND (Speed IS FAST) THEN Land IS COULD"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS SMALL) AND (NDF IS MEDIUM) THEN DMI IS IAGA"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS MEDIUM) AND (NDF IS MEDIUM) THEN DMI IS ENOUGH"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS LARGE) AND (NDF IS MEDIUM) THEN DMI IS DAGA"));
 
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS LOW) AND (Speed IS SLOW) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS LOW) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS LOW) AND (Speed IS FAST) THEN Land IS SHOULD"));
-
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS OK) AND (Speed IS SLOW) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS OK) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS OK) AND (Speed IS FAST) THEN Land IS SHOULD"));
-
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS HIGH) AND (Speed IS SLOW) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS HIGH) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS NEUTRAL) AND (Altitude IS HIGH) AND (Speed IS FAST) THEN Land IS SHOULD"));
-
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS LOW) AND (Speed IS SLOW) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS LOW) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS LOW) AND (Speed IS FAST) THEN Land IS COULD"));
-
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS OK) AND (Speed IS SLOW) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS OK) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS OK) AND (Speed IS FAST) THEN Land IS SHOULD"));
-
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS HIGH) AND (Speed IS SLOW) THEN Land IS COULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS HIGH) AND (Speed IS FINE) THEN Land IS SHOULD"));
-            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (Wind IS PARALLEL) AND (Altitude IS HIGH) AND (Speed IS FAST) THEN Land IS SHOULD"));
-
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS SMALL) AND (NDF IS LARGE) THEN DMI IS IAWL"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS MEDIUM) AND (NDF IS LARGE) THEN DMI IS IAGA"));
+            fuzz.FuzzyRuleCollection.Add(new FuzzyRule("IF (CBW IS LARGE) AND (NDF IS LARGE) THEN DMI IS ENOUGH"));
 
             GetData();
         }
@@ -120,15 +120,19 @@ namespace FuzzyLogic
 
         public void GetData()
         {
-            dWind.InputValue = Convert.ToDouble(textBox2.Text);
+            /*dWind.InputValue = Convert.ToDouble(textBox2.Text);
             //dWind.Fuzzify("NEUTRAL");
-
 
             dAltitude.InputValue = Convert.ToDouble(textBox1.Text);
             //dAltitude.Fuzzify("OK");
 
             dSpeed.InputValue = Convert.ToDouble(textBox3.Text);
-            //dSpeed.Fuzzify("FINE");
+            //dSpeed.Fuzzify("FINE");*/
+
+            NDF.InputValue = Convert.ToDouble(textBox1.Text);
+            CBW.InputValue = Convert.ToDouble(textBox2.Text);
+
+
         }
     }
 }
