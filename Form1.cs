@@ -18,11 +18,7 @@ namespace FuzzyLogic
         LinguisticVariable NDF, CBW, DMI;
 
         FuzzyEngine fuzz;
-        OutputForm newForm;
 
-
-
-        public static Image outputImage;
         //public static double Altitude, Speed;
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,10 +26,8 @@ namespace FuzzyLogic
             fuzz = new FuzzyEngine();
             AddMembers();
             SetRules();
-            newForm = new OutputForm();
             double res = fuzz.Defuzzify();
-            Console.WriteLine(res);
-            newForm.Show();
+            textBox3.Text = string.Format("{0:0.00}", res);
 
         }
 
